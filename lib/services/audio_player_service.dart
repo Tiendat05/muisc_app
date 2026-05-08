@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 import '../models/playback_state_model.dart';
@@ -33,18 +34,33 @@ class AudioPlayerService {
   // Load and play audio from file path
   Future<void> loadAudio(String filePath) async {
     try {
+      debugPrint('[AudioService] Loading audio: $filePath');
       if (filePath.startsWith('assets/')) {
-        await _audioPlayer.setAsset(filePath);
+        // Remove 'assets/' prefix for setAsset()
+        final assetPath = filePath.replaceFirst('assets/', '');
+        debugPrint('[AudioService] Loading asset: $assetPath');
+        await _audioPlayer.setAsset(assetPath);
       } else {
+        debugPrint('[AudioService] Loading file path: $filePath');
         await _audioPlayer.setFilePath(filePath);
       }
+      debugPrint('[AudioService] Audio loaded successfully');
+      debugPrint('[AudioService] Duration: ${_audioPlayer.duration}');
     } catch (e) {
+      debugPrint('[AudioService] Error loading audio: $e');
       throw Exception('Error loading audio: $e');
     }
   }
 
   Future<void> play() async {
-    await _audioPlayer.play();
+    try {
+      debugPrint('[AudioService] Playing...');
+      await _audioPlayer.play();
+      debugPrint('[AudioService] Now playing: ${_audioPlayer.playing}');
+    } catch (e) {
+      debugPrint('[AudioService] Error playing: $e');
+      throw Exception('Error playing audio: $e');
+    }
   }
 
   Future<void> pause() async {

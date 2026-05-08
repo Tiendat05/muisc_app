@@ -94,12 +94,17 @@ class AudioProvider extends ChangeNotifier {
     final song = _playlist[index];
 
     try {
+      debugPrint(
+        '[AudioProvider] Playing song: ${song.title} - ${song.filePath}',
+      );
       await _audioService.loadAudio(song.filePath);
+      debugPrint('[AudioProvider] Audio loaded, now playing...');
       await _audioService.play();
+      debugPrint('[AudioProvider] Play command sent');
       await _storageService.saveLastPlayed(song.id);
       await _storageService.addToRecentlyPlayed(song.id);
     } catch (e) {
-      debugPrint('Error playing song: $e');
+      debugPrint('[AudioProvider] Error playing song: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

@@ -7,7 +7,9 @@ import '../services/permission_service.dart';
 import '../utils/constants.dart';
 import '../widgets/song_tile.dart';
 import 'now_playing_screen.dart';
-import 'zing_player.dart';
+import 'all_songs_screen.dart';
+import 'playlist_screen.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -123,6 +125,38 @@ class _HomeScreenState extends State<HomeScreen> {
             fontSize: 28,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.music_note, color: AppColors.primary),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const AllSongsScreen()),
+              );
+            },
+            tooltip: 'All Songs',
+          ),
+          IconButton(
+            icon: const Icon(Icons.playlist_play, color: AppColors.primary),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PlaylistScreen()),
+              );
+            },
+            tooltip: 'Playlists',
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings, color: AppColors.primary),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
+            },
+            tooltip: 'Settings',
+          ),
+        ],
       ),
 
       body: _isLoading
@@ -175,14 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return SongTile(
                             song: song,
                             isCurrentSong: isCurrent,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const ZingPlayer(),
-                                ),
-                              );
-                            },
+                            onTap: () => _playSong(index),
                           );
                         },
                       );
