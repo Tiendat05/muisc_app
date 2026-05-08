@@ -1,5 +1,9 @@
 # muisc_app
 
+<img src="https://github.com/user-attachments/assets/268e1c68-ddf2-43a1-a81a-48aeca47e615"  width="300"/>
+
+
+
 A new Flutter project.
 
 ## Getting Started
